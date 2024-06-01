@@ -13,15 +13,7 @@ public class HillClimbing {
 	}
 
 
-	public double calculate_cost(List<Integer> arrangement) {
-		double totalDislike = 0;
-		for (int i = 0; i < arrangement.size(); i++) {
-			int person1 = arrangement.get(i);
-			int person2 = arrangement.get((i + 1) % arrangement.size());
-			totalDislike += data[person1][person2];
-		}
-		return totalDislike;
-	}
+	public double calculate_cost(List<Integer> arrangement) {}
 
 	public List<State> getNeighbor() {
 		List<State> neighbors = new ArrayList<>();

@@ -1,8 +1,11 @@
 package com.AIProjects;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class Main {
+	private List<Integer> arrangement = new ArrayList();
 	private static HashMap<Integer, String> namesMap = new HashMap<>();
 	private static final double[][] DISLIKE_MATRIX =
 			{{0, 0.68, 0.55, 0.30, 0.82, 0.48, 0.33, 0.10, 0.76, 0.43},
@@ -31,9 +34,16 @@ public class Main {
 		namesMap.put(7, "Fuad");
 		namesMap.put(8, "Ibrahim");
 		namesMap.put(9, "Khalid");
-
 	}
 
 
-
+	public double calculate_cost(List<Integer> arrangement) {
+		double totalDislike = 0;
+		for (int i = 0; i < arrangement.size(); i++) {
+			int person1 = arrangement.get(i);
+			int person2 = arrangement.get((i + 1) % arrangement.size());
+			totalDislike += DISLIKE_MATRIX[person1][person2];
+		}
+		return totalDislike;
+	}
 }
