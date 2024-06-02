@@ -1,1 +1,0 @@
-for hill climbing start a random arrangment in order to start and find a fitness function that calculates the cost of that arrangment then swap 2 or more and check if its better if not swap others if yes then make that as the initial state keep repeating that for 100 times (as instructed) until it reaches a best solution

@@ -4,19 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HillClimbing {
-	private double[][] data;
 	private List<Integer> arrangement;
 
-	public HillClimbing(double[][] data, List<Integer> arrangement) {
-		this.data = data;
+	public HillClimbing(List<Integer> arrangement) {
 		this.arrangement = new ArrayList<>(arrangement);
 	}
 
 
-	public double calculate_cost(List<Integer> arrangement) {}
-
-	public List<State> getNeighbor() {
-		List<State> neighbors = new ArrayList<>();
+	public List<List<Integer>> getNeighbor() {
+		List<List<Integer>> neighbors = new ArrayList<>();
 		for (int i = 0; i < arrangement.size(); i++) {
 			for (int j = i + 1; j < arrangement.size(); j++) {
 				List<Integer> newArrangement = new ArrayList<>(arrangement);
@@ -33,6 +29,6 @@ public class HillClimbing {
 	}
 
 	public String toString() {
-		return "Seating arrangment " + arrangement + "\n dislike " + calculate_cost(arrangement);
+		return "Seating arrangment " + arrangement;
 	}
 }

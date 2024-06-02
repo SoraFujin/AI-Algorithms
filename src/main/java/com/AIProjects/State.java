@@ -13,5 +13,4 @@ public class State {
 	public List<Integer> getArrangmenet() {
 		return arrangement;
 	}
-
 }

@@ -1,11 +1,13 @@
 package com.AIProjects;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 
 public class Main {
-	private List<Integer> arrangement = new ArrayList();
+	private List<Integer> arrangement = new ArrayList<>();
 	private static HashMap<Integer, String> namesMap = new HashMap<>();
 	private static final double[][] DISLIKE_MATRIX =
 			{{0, 0.68, 0.55, 0.30, 0.82, 0.48, 0.33, 0.10, 0.76, 0.43},
@@ -20,7 +22,8 @@ public class Main {
 					{0.43, 0.99, 0.64, 0.92, 0.75, 0.26, 0.81, 0.78, 0.45, 0}};
 
 	public static void main(String[] args) {
-		System.out.println("Hello, Java!");
+		fillHashMap();
+		hillClimbing();
 	}
 
 	private static void fillHashMap() {
@@ -36,8 +39,7 @@ public class Main {
 		namesMap.put(9, "Khalid");
 	}
 
-
-	public double calculate_cost(List<Integer> arrangement) {
+	public static double calculate_cost(List<Integer> arrangement) {
 		double totalDislike = 0;
 		for (int i = 0; i < arrangement.size(); i++) {
 			int person1 = arrangement.get(i);
@@ -45,5 +47,55 @@ public class Main {
 			totalDislike += DISLIKE_MATRIX[person1][person2];
 		}
 		return totalDislike;
+	}
+
+	public static void hillClimbing() {
+		int repeat = 0;
+		int numRestarts = 100;
+		List<Integer> initialArrangement = new ArrayList<>();
+
+		for (int i = 0; i < 10; i++) {
+			initialArrangement.add(i);
+		}
+
+		double bestCost = Double.MAX_VALUE;
+		List<Integer> bestArrangement = new ArrayList<>(initialArrangement);
+
+		Random random = new Random();
+
+		while (repeat < numRestarts) {
+			Collections.shuffle(initialArrangement, random);
+			HillClimbing hc = new HillClimbing(initialArrangement);
+			double currentCost = calculate_cost(initialArrangement);
+
+			boolean foundBetter;
+			do {
+				foundBetter = false;
+				List<List<Integer>> neighbors = hc.getNeighbor();
+				for (List<Integer> neighbor : neighbors) {
+					double neighborCost = calculate_cost(neighbor);
+					if (neighborCost < currentCost) {
+						currentCost = neighborCost;
+						initialArrangement = neighbor;
+						foundBetter = true;
+					}
+				}
+			} while (foundBetter);
+
+			if (currentCost < bestCost) {
+				bestCost = currentCost;
+				bestArrangement = new ArrayList<>(initialArrangement);
+			}
+
+			repeat++;
+		}
+
+		System.out.println("Hill Climbing: ");
+		System.out.println("Best seating arrangment: ");
+		for (int index : bestArrangement) {
+			System.out.print(namesMap.get(index) + " ");
+		}
+		System.out.println();
+		System.out.println("Total Cost: " + bestCost);
 	}
 }
