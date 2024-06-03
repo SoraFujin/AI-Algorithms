@@ -139,7 +139,6 @@ public class Main {
 			}
 		}
 
-		// Print best arrangement
 		System.out.println("Simulated Annealing: ");
 		System.out.println("Best Seating: ");
 		for (Integer person : bestArrangement) {
