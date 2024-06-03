@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Random;
 
 public class Main {
-	private List<Integer> arrangement = new ArrayList<>();
 	private static HashMap<Integer, String> namesMap = new HashMap<>();
 	private static final double[][] DISLIKE_MATRIX =
 			{{0, 0.68, 0.55, 0.30, 0.82, 0.48, 0.33, 0.10, 0.76, 0.43},
@@ -23,7 +22,9 @@ public class Main {
 
 	public static void main(String[] args) {
 		fillHashMap();
-		hillClimbing();
+		genetic_algorithm(100, 1000, 0.1);
+		simulated_annealing(1000, 0.99, 10000);
+		hill_climbing(100);
 	}
 
 	private static void fillHashMap() {
@@ -49,9 +50,8 @@ public class Main {
 		return totalDislike;
 	}
 
-	public static void hillClimbing() {
+	public static void hill_climbing(int num_restarts) {
 		int repeat = 0;
-		int numRestarts = 100;
 		List<Integer> initialArrangement = new ArrayList<>();
 
 		for (int i = 0; i < 10; i++) {
@@ -63,7 +63,7 @@ public class Main {
 
 		Random random = new Random();
 
-		while (repeat < numRestarts) {
+		while (repeat < num_restarts) {
 			Collections.shuffle(initialArrangement, random);
 			HillClimbing hc = new HillClimbing(initialArrangement);
 			double currentCost = calculate_cost(initialArrangement);
@@ -98,4 +98,28 @@ public class Main {
 		System.out.println();
 		System.out.println("Total Cost: " + bestCost);
 	}
+
+
+	public static void simulated_annealing(int initial_temperature, double cooling_rate,
+			int num_iteration) {
+		List<Integer> initialArrangement = new ArrayList<>();
+		int min_temp = 1;
+		for (int i = 0; i < 10; i++) {
+			initialArrangement.add(i);
+		}
+
+		double currentCost = calculate_cost(initialArrangement);
+	}
+
+
+	public static void genetic_algorithm(int population_size, int num_generation,
+			double mutation_rate) {
+		List<Integer> initialArrangement = new ArrayList<>();
+
+		for (int i = 0; i < 10; i++) {
+			initialArrangement.add(i);
+		}
+
+	}
+
 }

@@ -1,15 +1,46 @@
 package com.AIProjects;
+// calculate the Cost
+// acceptance func
+// generate a new arrangement
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 public class Annealing {
-	double[][] hTable = {{0, 0.68, 0.55, 0.30, 0.82, 0.48, 0.33, 0.10, 0.76, 0.43},
-			{0.68, 0, 0.90, 0.11, 0.76, 0.20, 0.55, 0.17, 0.62, 0.99},
-			{0.55, 0.90, 0, 0.70, 0.63, 0.96, 0.51, 0.90, 0.88, 0.64},
-			{0.30, 0.11, 0.70, 0, 0.91, 0.86, 0.78, 0.99, 0.53, 0.92},
-			{0.82, 0.76, 0.63, 0.91, 0, 0.43, 0.88, 0.53, 0.42, 0.75},
-			{0.48, 0.20, 0.96, 0.86, 0.43, 0, 0.63, 0.97, 0.37, 0.26},
-			{0.33, 0.55, 0.51, 0.78, 0.88, 0.63, 0, 0.92, 0.87, 0.81},
-			{0.10, 0.17, 0.90, 0.99, 0.53, 0.97, 0.92, 0, 0.81, 0.78},
-			{0.76, 0.62, 0.88, 0.53, 0.42, 0.37, 0.87, 0.81, 0, 0.45},
-			{0.43, 0.99, 0.64, 0.92, 0.75, 0.26, 0.81, 0.78, 0.45, 0}};
+	private static List<Integer> arrangement = new ArrayList<>();
+
+	public Annealing(List<Integer> arrangment) {
+		this.arrangement = arrangment;
+	}
+
+	public static boolean acceptance(int temp, double deltaE) {
+		Random random = new Random();
+		if (deltaE < 0) {
+			return true;
+		} else {
+			if (random.nextDouble() < Math.exp((deltaE / temp))) {
+				return true;
+			} else
+				return false;
+		}
+	}
+
+	public List<List<Integer>> getNeighbor() {
+		List<List<Integer>> neighbors = new ArrayList<>();
+		for (int i = 0; i < arrangement.size(); i++) {
+			for (int j = i + 1; j < arrangement.size(); j++) {
+				List<Integer> newArrangement = new ArrayList<>(arrangement);
+				swap(newArrangement, i, j);
+			}
+		}
+		return neighbors;
+	}
+
+	public void swap(List<Integer> list, int i, int j) {
+		int temp = list.get(i);
+		list.set(i, list.get(j));
+		list.set(j, temp);
+	}
 }
 
