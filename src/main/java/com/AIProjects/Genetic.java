@@ -11,7 +11,9 @@ package com.AIProjects;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Random;
 
 public class Genetic {
 	private List<Integer> arrangement;
@@ -33,8 +35,44 @@ public class Genetic {
 		return population;
 	}
 
-	public List<Integer> crossOver(List<Integer> arrangment) {
-		return arrangment;
+	public List<List<Integer>> evolve(List<List<Integer>> population, double mutationRate) {
+		List<List<Integer>> newPopulation = new ArrayList<>();
+		population.sort(Comparator.comparingDouble(Main::calculate_cost));
+		int eliteCount = (int) (0.6 * population.size());
+
+		newPopulation.addAll(population.subList(0, eliteCount));
+
+		Random random = new Random();
+		while (newPopulation.size() < population.size()) {
+			List<Integer> parent1 = population.get(random.nextInt(eliteCount));
+			List<Integer> parent2 = population.get(random.nextInt(eliteCount));
+			List<Integer> child = crossOver(parent1, parent2);
+			if (random.nextDouble() < mutationRate) {
+				mutate(child);
+			}
+			newPopulation.add(child);
+		}
+
+		return newPopulation;
+
+	}
+
+	public List<Integer> crossOver(List<Integer> parent1, List<Integer> parent2) {
+		Random random = new Random();
+		int crossOverPoint = random.nextInt(parent1.size());
+		List<Integer> child = new ArrayList<>(parent1.subList(0, crossOverPoint));
+		for (Integer gene : parent2) {
+			if (!child.contains(gene))
+				child.add(gene);
+		}
+		return child;
+	}
+
+	private static void mutate(List<Integer> arrangement) {
+		Random random = new Random();
+		int index1 = random.nextInt(arrangement.size());
+		int index2 = random.nextInt(arrangement.size());
+		Collections.swap(arrangement, index1, index2);
 	}
 
 }

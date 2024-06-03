@@ -2,6 +2,7 @@ package com.AIProjects;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
@@ -154,15 +155,21 @@ public class Main {
 		for (int i = 0; i < 10; i++) {
 			initialArrangement.add(i);
 		}
+		Genetic GA = new Genetic(initialArrangement);
+		List<List<Integer>> population = GA.initializePopulation(population_size);
 
-		double cost = calculate_cost(initialArrangement);
-		Random random = new Random();
-
-		while (true) {
-			Collections.shuffle(initialArrangement, random);
+		for (int generation = 0; generation < num_generation; generation++) {
+			population = GA.evolve(population, mutation_rate);
 		}
 
-
+		population.sort(Comparator.comparingDouble(Main::calculate_cost));
+		List<Integer> bestArrangement = population.get(0);
+		System.out.println("Genetic: ");
+		System.out.println("Best Seating arrangment");
+		for (Integer person : bestArrangement) {
+			System.out.print(namesMap.get(person) + " ");
+		}
+		System.out.println("\nBest cost: " + calculate_cost(bestArrangement) + "\n");
 	}
 
 }
