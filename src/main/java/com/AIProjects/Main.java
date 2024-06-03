@@ -155,6 +155,14 @@ public class Main {
 			initialArrangement.add(i);
 		}
 
+		double cost = calculate_cost(initialArrangement);
+		Random random = new Random();
+
+		while (true) {
+			Collections.shuffle(initialArrangement, random);
+		}
+
+
 	}
 
 }

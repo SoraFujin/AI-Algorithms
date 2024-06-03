@@ -1,14 +1,41 @@
 package com.AIProjects;
 
+// a method initialize population --done
+// a method for evaluation of population
+// a method to select which solutin has the best fitness
+// a mthod for cross over to create new routes by combining genetic material from 2 parents
+// a method for mutation random changes to the current population by randomly swaping 2 indexes in
+// the list
+// a method to create new generation the children of the crossover and mutation with the best
+// fitness function
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 public class Genetic {
-	double[][] hTable = {{0, 0.68, 0.55, 0.30, 0.82, 0.48, 0.33, 0.10, 0.76, 0.43},
-			{0.68, 0, 0.90, 0.11, 0.76, 0.20, 0.55, 0.17, 0.62, 0.99},
-			{0.55, 0.90, 0, 0.70, 0.63, 0.96, 0.51, 0.90, 0.88, 0.64},
-			{0.30, 0.11, 0.70, 0, 0.91, 0.86, 0.78, 0.99, 0.53, 0.92},
-			{0.82, 0.76, 0.63, 0.91, 0, 0.43, 0.88, 0.53, 0.42, 0.75},
-			{0.48, 0.20, 0.96, 0.86, 0.43, 0, 0.63, 0.97, 0.37, 0.26},
-			{0.33, 0.55, 0.51, 0.78, 0.88, 0.63, 0, 0.92, 0.87, 0.81},
-			{0.10, 0.17, 0.90, 0.99, 0.53, 0.97, 0.92, 0, 0.81, 0.78},
-			{0.76, 0.62, 0.88, 0.53, 0.42, 0.37, 0.87, 0.81, 0, 0.45},
-			{0.43, 0.99, 0.64, 0.92, 0.75, 0.26, 0.81, 0.78, 0.45, 0}};
+	private List<Integer> arrangement;
+
+	public Genetic(List<Integer> arrangment) {
+		this.arrangement = new ArrayList<>();
+	}
+
+	public List<List<Integer>> initializePopulation(int population_size) {
+		List<List<Integer>> population = new ArrayList<>();
+		for (int i = 0; i < population_size; i++) {
+			List<Integer> arrangment = new ArrayList<>();
+			for (int j = 0; j < 10; j++) {
+				arrangment.add(j);
+			}
+			Collections.shuffle(arrangement);
+			population.add(arrangment);
+		}
+		return population;
+	}
+
+	public List<Integer> crossOver(List<Integer> arrangment) {
+		return arrangment;
+	}
+
 }
+
