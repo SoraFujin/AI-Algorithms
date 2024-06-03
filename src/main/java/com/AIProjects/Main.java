@@ -96,21 +96,57 @@ public class Main {
 			System.out.print(namesMap.get(index) + " ");
 		}
 		System.out.println();
-		System.out.println("Total Cost: " + bestCost);
+		System.out.println("Total Cost: " + bestCost + "\n");
 	}
 
 
-	public static void simulated_annealing(int initial_temperature, double cooling_rate,
-			int num_iteration) {
+	public static void simulated_annealing(int initialTemperature, double coolingRate,
+			int numIteration) {
 		List<Integer> initialArrangement = new ArrayList<>();
-		int min_temp = 1;
+		int minTemp = 1;
 		for (int i = 0; i < 10; i++) {
 			initialArrangement.add(i);
 		}
 
-		double currentCost = calculate_cost(initialArrangement);
-	}
+		Random random = new Random();
+		List<Integer> bestArrangement = new ArrayList<>(initialArrangement);
+		double bestCost = calculate_cost(bestArrangement);
 
+		double currentTemperature = initialTemperature;
+		int iteration = 0;
+
+		while (currentTemperature > minTemp) {
+			List<Integer> newArrangement = new ArrayList<>(initialArrangement);
+			Collections.shuffle(newArrangement, random);
+			double currentCost = calculate_cost(initialArrangement);
+			double newCost = calculate_cost(newArrangement);
+
+			if (Annealing.acceptance(currentTemperature, newCost - currentCost)) {
+				initialArrangement = new ArrayList<>(newArrangement);
+				currentCost = newCost;
+
+				if (newCost < bestCost) {
+					bestArrangement = new ArrayList<>(newArrangement);
+					bestCost = newCost;
+				}
+			}
+
+			currentTemperature *= (1 - coolingRate);
+			iteration++;
+
+			if (iteration >= numIteration) {
+				break;
+			}
+		}
+
+		// Print best arrangement
+		System.out.println("Simulated Annealing: ");
+		System.out.println("Best Seating: ");
+		for (Integer person : bestArrangement) {
+			System.out.print(namesMap.get(person) + " ");
+		}
+		System.out.println("\nBest cost: " + bestCost + "\n");
+	}
 
 	public static void genetic_algorithm(int population_size, int num_generation,
 			double mutation_rate) {

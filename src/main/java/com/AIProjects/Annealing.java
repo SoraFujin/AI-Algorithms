@@ -14,7 +14,7 @@ public class Annealing {
 		this.arrangement = arrangment;
 	}
 
-	public static boolean acceptance(int temp, double deltaE) {
+	public static boolean acceptance(double temp, double deltaE) {
 		Random random = new Random();
 		if (deltaE < 0) {
 			return true;
